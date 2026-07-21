@@ -1,6 +1,13 @@
+using ECommerce.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+
 namespace ECommerce.Infrastructure.Identity;
 
-public class ApplicationUser
+public class ApplicationUser : IdentityUser<Guid>
 {
+    public string FullName { get; set; } = string.Empty;
+
+    // Navigation Property for Foreign key
+    public ICollection<Order> Orders { get; set; } = new List<Order>();
     
 }

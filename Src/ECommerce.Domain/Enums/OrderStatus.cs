@@ -1,6 +1,9 @@
 namespace ECommerce.Domain.Enums;
 
-public class OrderStatus
+public enum OrderStatus
 {
-    
+    Pending,
+    Paid,
+    Cancelled,
+    Completed
 }

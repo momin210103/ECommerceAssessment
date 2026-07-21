@@ -1,6 +1,8 @@
 namespace ECommerce.Domain.Enums;
 
-public class PaymentProvider
+public enum PaymentProvider
 {
+    Stripe,
+    BKash
     
 }

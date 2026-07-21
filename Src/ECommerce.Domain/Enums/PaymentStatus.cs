@@ -1,6 +1,9 @@
 namespace ECommerce.Domain.Enums;
 
-public class PaymentStatus
+public enum PaymentStatus
 {
-    
+    Pending,
+    Success,
+    Failed,
+    Refunded
 }

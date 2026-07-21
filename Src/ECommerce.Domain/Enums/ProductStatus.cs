@@ -1,6 +1,8 @@
 namespace ECommerce.Domain.Enums;
 
-public class ProductStatus
+public enum ProductStatus
 {
+    Active,
+    Inactive
     
 }
