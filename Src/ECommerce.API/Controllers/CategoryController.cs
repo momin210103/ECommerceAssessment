@@ -21,7 +21,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(CreateCategoryRequest request)
     {
         

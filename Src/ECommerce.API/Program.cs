@@ -19,7 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 // Validator Service Register
@@ -37,7 +36,12 @@ var jwtSettings = builder.Configuration
     .Get<JwtSettings>()!;
 
 builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
@@ -55,7 +59,7 @@ builder.Services
         };
     });
 
-
+builder.Services.AddAuthorization();
 // MediaTR
 builder.Services.AddMediatR(cfg =>
 {

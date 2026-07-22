@@ -2,6 +2,8 @@ using ECommerce.Application.Features.Auth.Commands.Login;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using ECommerce.Application.Features.Auth.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 //using LoginRequest = ECommerce.Application.Features.Auth.DTOs.LoginRequest;
 
@@ -41,5 +43,20 @@ public class AuthController : ControllerBase
         var response = await _mediator.Send(command);
 
         return Ok(response);
+    }
+    [HttpGet("me")]
+    [Authorize]
+    public IActionResult Me()
+    {
+        return Ok(new
+        {
+            IsAuthenticated = User.Identity?.IsAuthenticated,
+            Name = User.Identity?.Name,
+            Claims = User.Claims.Select(c => new
+            {
+                c.Type,
+                c.Value
+            })
+        });
     }
 }
