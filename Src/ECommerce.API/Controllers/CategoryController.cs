@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.Commands.UpdateCategory;
 using ECommerce.Application.Features.Categories.Queries.GetAllCategories;
 using ECommerce.Application.Features.Categories.Queries.GetCategoryById;
 using MediatR;
@@ -40,6 +41,18 @@ public class CategoryController : ControllerBase
 
         if (result is null)
             return NotFound();
+
+        return Ok(result);
+    }
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateCategoryCommand command)
+    {
+        if (id != command.Id)
+        {
+            return BadRequest("Route id and request id do not match.");
+        }
+
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }
