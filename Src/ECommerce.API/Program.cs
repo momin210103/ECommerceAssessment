@@ -9,6 +9,7 @@ using ECommerce.Application.Features.Auth.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ECommerce.Infrastructure.Seed;
+using ECommerce.Application.Common.Mapping;
 using FluentValidation;
 using MediatR;
 
@@ -26,6 +27,9 @@ builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>()
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
+
+// Automapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 var jwtSettings = builder.Configuration
