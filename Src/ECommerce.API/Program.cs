@@ -8,6 +8,7 @@ using ECommerce.Application.Common.Mapping;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using ECommerce.Application.Features.Auth.Validators;
 using ECommerce.Infrastructure.Persistence;
+using ECommerce.Infrastructure.Persistence.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ECommerce.Infrastructure.Seed;
@@ -97,9 +98,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-
-
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -114,6 +112,16 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<ApplicationDbContext>();
 
     await CategoryDataSeeder.SeedAsync(context);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    await CategoryDataSeeder.SeedAsync(context);
+    await ProductDataSeeder.SeedAsync(context);
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
