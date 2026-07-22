@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.Commands.DeleteCategory;
 using ECommerce.Application.Features.Categories.Commands.UpdateCategory;
 using ECommerce.Application.Features.Categories.Queries.GetAllCategories;
 using ECommerce.Application.Features.Categories.Queries.GetCategoryById;
@@ -55,5 +56,15 @@ public class CategoryController : ControllerBase
         var result = await _mediator.Send(command);
 
         return Ok(result);
+    }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _mediator.Send(new DeleteCategoryCommand(id));
+
+        if (!result)
+            return NotFound();
+
+        return NoContent();
     }
 }
