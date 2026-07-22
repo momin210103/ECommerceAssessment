@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Orders.Commands.CreateOrder;
+using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,13 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> Create(CreateOrderCommand command)
     {
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new GetAllOrdersQuery());
 
         return Ok(result);
     }
