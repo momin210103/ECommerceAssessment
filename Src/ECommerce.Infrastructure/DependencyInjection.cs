@@ -1,5 +1,6 @@
 using ECommerce.Application.Features.Auth.Interfaces;
 using ECommerce.Application.Features.Categories.Interfaces;
+using ECommerce.Application.Features.Products.Interfaces;
 using ECommerce.Infrastructure.Identity;
 using ECommerce.Infrastructure.Persistence;
 using ECommerce.Infrastructure.Repositories;
@@ -33,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtService, JwtService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
 
         return services;
     }
