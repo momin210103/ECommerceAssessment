@@ -1,6 +1,6 @@
 namespace ECommerce.Application.Features.Auth.DTOs;
 
-public class RegisterReqeust
+public class RegisterRequest
 {
     public string FullName { get; set; } = string.Empty;
 

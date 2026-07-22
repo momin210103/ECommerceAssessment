@@ -5,6 +5,7 @@ using System.Text;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using ECommerce.Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+
+
 var jwtSettings = builder.Configuration
     .GetSection("JwtSettings")
     .Get<JwtSettings>()!;
@@ -46,6 +49,13 @@ builder.Services.AddMediatR(cfg =>
 });
 
 var app = builder.Build();
+
+
+
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeeder.SeedAsync(scope.ServiceProvider);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
