@@ -11,6 +11,7 @@ public interface IProductRepository
     Task<Product?> GetByNameAsync(string name);
 
     Task<bool> CategoryExistsAsync(Guid categoryId);
+    Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
 
     Task AddAsync(Product product);
 

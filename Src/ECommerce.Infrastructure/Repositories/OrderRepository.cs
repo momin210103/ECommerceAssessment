@@ -60,4 +60,11 @@ public class OrderRepository : IOrderRepository
     {
         await _context.SaveChangesAsync();
     }
+
+    public async Task<string> GenerateOrderNumberAsync()
+    {
+        var count = await _context.Orders.CountAsync();
+
+        return $"ORD-{DateTime.UtcNow:yyyyMMdd}-{(count + 1):D6}";
+    }
 }

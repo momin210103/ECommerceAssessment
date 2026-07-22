@@ -17,4 +17,6 @@ public interface IOrderRepository
     Task DeleteAsync(Order order);
 
     Task SaveChangesAsync();
+    
+    Task<string> GenerateOrderNumberAsync();
 }

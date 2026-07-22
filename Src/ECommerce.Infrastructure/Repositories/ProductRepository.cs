@@ -60,4 +60,10 @@ public class ProductRepository : IProductRepository
     {
         await _context.SaveChangesAsync();
     }
+    public async Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds)
+    {
+        return await _context.Products
+            .Where(p => productIds.Contains(p.Id))
+            .ToListAsync();
+    }
 }
