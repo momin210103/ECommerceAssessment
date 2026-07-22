@@ -5,6 +5,7 @@ using ECommerce.Application.Features.Orders.DTOs;
 using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
 using ECommerce.Application.Features.Orders.Queries.GetOrderById;
 using ECommerce.Application.Features.Payments.Commands.CreatePayment;
+using ECommerce.Application.Features.Payments.Commands.DeletePayment;
 using ECommerce.Application.Features.Payments.Commands.UpdatePaymentStatus;
 using ECommerce.Application.Features.Payments.DTOs;
 using ECommerce.Application.Features.Payments.Queries.GetAllPayments;
@@ -70,5 +71,15 @@ public class PaymentController : ControllerBase
         var result = await _mediator.Send(command);
 
         return Ok(result);
+    }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _mediator.Send(new DeletePaymentCommand(id));
+
+        if (!result)
+            return NotFound();
+
+        return NoContent();
     }
 }
