@@ -1,4 +1,7 @@
 using AutoMapper;
+using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.DTOs;
+using ECommerce.Domain.Entities;
 
 namespace ECommerce.Application.Common.Mapping;
 
@@ -6,8 +9,8 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // Category mappings
-        // Product mappings
-        // Order mappings
+        CreateMap<CreateCategoryRequest, CreateCategoryCommand>();
+
+        CreateMap<Category, CategoryResponse>();
     }
 }
