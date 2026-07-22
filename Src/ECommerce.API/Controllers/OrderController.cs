@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Orders.Commands.CreateOrder;
+using ECommerce.Application.Features.Orders.Commands.DeleteOrder;
 using ECommerce.Application.Features.Orders.Commands.UpdateOrderStatus;
 using ECommerce.Application.Features.Orders.DTOs;
 using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
@@ -59,5 +60,15 @@ public class OrderController : ControllerBase
         var result = await _mediator.Send(command);
 
         return Ok(result);
+    }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _mediator.Send(new DeleteOrderCommand(id));
+
+        if (!result)
+            return NotFound();
+
+        return NoContent();
     }
 }
