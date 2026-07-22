@@ -1,6 +1,9 @@
-namespace ECommerce.Application.Features.Auth.Commands.Register;
+using ECommerce.Application.Features.Auth.DTOs;
 
-public class RegisterCommand
-{
-    
-}
+namespace ECommerce.Application.Features.Auth.Commands.Register;
+using MediatR;
+public record RegisterCommand(
+    string FullName,
+    string Email,
+    string Password
+) : IRequest<AuthResponse>;

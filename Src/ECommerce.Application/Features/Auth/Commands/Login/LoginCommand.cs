@@ -1,6 +1,9 @@
+using ECommerce.Application.Features.Auth.DTOs;
+using MediatR;
+
 namespace ECommerce.Application.Features.Auth.Commands.Login;
 
-public class LoginCommand
-{
-    
-}
+public record LoginCommand(
+    string Email,
+    string Password
+) : IRequest<AuthResponse>;
