@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Payments\Commands\" />
       <Folder Include="Features\Payments\Queries\" />
     </ItemGroup>
 
