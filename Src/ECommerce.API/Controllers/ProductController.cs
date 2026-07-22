@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Commands.UpdateProduct;
 using ECommerce.Application.Features.Products.Queries.GetAllProducts;
 using ECommerce.Application.Features.Products.Queries.GetProductById;
 using MediatR;
@@ -42,6 +43,19 @@ public class ProductController : ControllerBase
 
         if (result is null)
             return NotFound();
+
+        return Ok(result);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        Guid id,
+        [FromBody] UpdateProductCommand command)
+    {
+        if (id != command.Id)
+            return BadRequest("Route Id and Product Id do not match.");
+
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }

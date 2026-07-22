@@ -1,5 +1,6 @@
 using AutoMapper;
 using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Commands.UpdateProduct;
 using ECommerce.Application.Features.Products.DTOs;
 using ECommerce.Domain.Entities;
 
@@ -15,5 +16,6 @@ public class ProductProfile : Profile
                 opt => opt.MapFrom(src => src.Category.Name));
 
         CreateMap<CreateProductCommand, Product>();
+        CreateMap<UpdateProductCommand, Product>();
     }
 }
