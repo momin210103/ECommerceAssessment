@@ -1,5 +1,7 @@
 using System.Net;
 using System.Text.Json;
+using ECommerce.Application.Common.Exceptions;
+using FluentValidation;
 
 namespace ECommerce.API.Middleware;
 
@@ -27,16 +29,42 @@ public class ExceptionMiddleware
             _logger.LogError(ex, ex.Message);
 
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-            var response = new
+            context.Response.StatusCode = ex switch
             {
-                Success = false,
-                Message = ex.Message
+                ValidationException => StatusCodes.Status400BadRequest,
+                BadRequestException => StatusCodes.Status400BadRequest,
+                UnauthorizedException => StatusCodes.Status401Unauthorized,
+                NotFoundException => StatusCodes.Status404NotFound,
+                ConflictException => StatusCodes.Status409Conflict,
+                _ => StatusCodes.Status500InternalServerError
             };
 
-            await context.Response.WriteAsync(
-                JsonSerializer.Serialize(response));
+            object response;
+
+            if (ex is ValidationException validationException)
+            {
+                response = new
+                {
+                    Success = false,
+                    Message = "Validation failed",
+                    Errors = validationException.Errors.Select(e => new
+                    {
+                        Field = e.PropertyName,
+                        Error = e.ErrorMessage
+                    })
+                };
+            }
+            else
+            {
+                response = new
+                {
+                    Success = false,
+                    Message = ex.Message
+                };
+            }
+
+            await context.Response.WriteAsJsonAsync(response);
         }
     }
 }

@@ -1,6 +1,8 @@
+using ECommerce.Application.Common.Exceptions;
 using ECommerce.Application.Features.Auth.DTOs;
 using ECommerce.Application.Features.Auth.Interfaces;
 using ECommerce.Infrastructure.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace ECommerce.Infrastructure.Services;
@@ -27,7 +29,7 @@ public class AuthService : IAuthService
         var existingUser = await _userManager.FindByEmailAsync(email);
 
         if (existingUser != null)
-            throw new Exception("Email already exists.");
+            throw new ConflictException("Email already exists.");
         var user = new ApplicationUser
         {
             FullName = fullName,
@@ -36,7 +38,7 @@ public class AuthService : IAuthService
         };
         var result = await _userManager.CreateAsync(user, password);
         if (!result.Succeeded)
-            throw new Exception(string.Join(", ", result.Errors.Select(e => e.Description)));
+            throw new BadRequestException(string.Join(", ", result.Errors.Select(e => e.Description)));
         await _userManager.AddToRoleAsync(user, "Customer");
         var roles = await _userManager.GetRolesAsync(user);
         var token = await _jwtService.GenerateTokenAsync(
@@ -61,7 +63,7 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(email);
 
         if (user == null)
-            throw new Exception("Invalid email or password.");
+            throw new UnauthorizedException("Invalid email or password.");
 
         var result = await _signInManager.CheckPasswordSignInAsync(
             user,
@@ -69,7 +71,7 @@ public class AuthService : IAuthService
             false);
 
         if (!result.Succeeded)
-            throw new Exception("Invalid email or password.");
+            throw new UnauthorizedException("Invalid email or password.");
 
         var roles = await _userManager.GetRolesAsync(user);
 
