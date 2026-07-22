@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using ECommerce.API.Extensions;
 using ECommerce.Application.Common.Behaviors;
+using ECommerce.Application.Common.Mapping;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using ECommerce.Application.Features.Auth.Validators;
 using ECommerce.Infrastructure.Persistence;
@@ -63,6 +64,9 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(RegisterCommand).Assembly);
 });
+
+
+builder.Services.AddAutoMapper(typeof(CategoryProfile).Assembly);
 
 builder.Services.AddSwaggerGen(options =>
 {

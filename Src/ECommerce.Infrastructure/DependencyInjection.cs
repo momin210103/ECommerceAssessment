@@ -1,6 +1,8 @@
 using ECommerce.Application.Features.Auth.Interfaces;
+using ECommerce.Application.Features.Categories.Interfaces;
 using ECommerce.Infrastructure.Identity;
 using ECommerce.Infrastructure.Persistence;
+using ECommerce.Infrastructure.Repositories;
 using ECommerce.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +32,7 @@ public static class DependencyInjection
             .AddDefaultTokenProviders();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IJwtService, JwtService>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
 
         return services;
     }
