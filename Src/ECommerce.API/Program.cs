@@ -6,10 +6,10 @@ using ECommerce.API.Extensions;
 using ECommerce.Application.Common.Behaviors;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using ECommerce.Application.Features.Auth.Validators;
+using ECommerce.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ECommerce.Infrastructure.Seed;
-using ECommerce.Application.Common.Mapping;
 using FluentValidation;
 using MediatR;
 
@@ -27,8 +27,6 @@ builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
 
-// Automapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 var jwtSettings = builder.Configuration
@@ -103,6 +101,15 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     await IdentitySeeder.SeedAsync(scope.ServiceProvider);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ApplicationDbContext>();
+
+    await CategoryDataSeeder.SeedAsync(context);
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

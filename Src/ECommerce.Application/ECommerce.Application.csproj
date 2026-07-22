@@ -17,8 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Categories\Mapping\" />
-      <Folder Include="Features\Categories\Queries\" />
+      <Folder Include="Common\Mapping\" />
     </ItemGroup>
 
 </Project>
