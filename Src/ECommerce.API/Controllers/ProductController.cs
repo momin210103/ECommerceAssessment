@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Products.Commands.CreateProduct;
+using ECommerce.Application.Features.Products.Queries.GetAllProducts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,15 @@ public class ProductController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new GetAllProductsQuery());
 
         return Ok(result);
     }
