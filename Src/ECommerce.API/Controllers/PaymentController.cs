@@ -5,6 +5,7 @@ using ECommerce.Application.Features.Orders.DTOs;
 using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
 using ECommerce.Application.Features.Orders.Queries.GetOrderById;
 using ECommerce.Application.Features.Payments.Commands.CreatePayment;
+using ECommerce.Application.Features.Payments.Commands.UpdatePaymentStatus;
 using ECommerce.Application.Features.Payments.DTOs;
 using ECommerce.Application.Features.Payments.Queries.GetAllPayments;
 using ECommerce.Application.Features.Payments.Queries.GetPaymentById;
@@ -51,6 +52,22 @@ public class PaymentController : ControllerBase
 
         if (result is null)
             return NotFound();
+
+        return Ok(result);
+    }
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> UpdateStatus(
+        Guid id,
+        [FromBody] UpdatePaymentStatusRequest request)
+    {
+        var command = new UpdatePaymentStatusCommand
+        {
+            Id = id,
+            Status = request.Status,
+            TransactionId = request.TransactionId
+        };
+
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }
