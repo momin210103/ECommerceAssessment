@@ -6,6 +6,8 @@ using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
 using ECommerce.Application.Features.Orders.Queries.GetOrderById;
 using ECommerce.Application.Features.Payments.Commands.CreatePayment;
 using ECommerce.Application.Features.Payments.DTOs;
+using ECommerce.Application.Features.Payments.Queries.GetAllPayments;
+using ECommerce.Application.Features.Payments.Queries.GetPaymentById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +34,23 @@ public class PaymentController : ControllerBase
         };
 
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new GetAllPaymentsQuery());
+
+        return Ok(result);
+    }
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var result = await _mediator.Send(new GetPaymentByIdQuery(id));
+
+        if (result is null)
+            return NotFound();
 
         return Ok(result);
     }
