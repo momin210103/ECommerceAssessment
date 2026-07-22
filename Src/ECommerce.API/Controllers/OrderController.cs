@@ -1,4 +1,6 @@
 using ECommerce.Application.Features.Orders.Commands.CreateOrder;
+using ECommerce.Application.Features.Orders.Commands.UpdateOrderStatus;
+using ECommerce.Application.Features.Orders.DTOs;
 using ECommerce.Application.Features.Orders.Queries.GetAllOrders;
 using ECommerce.Application.Features.Orders.Queries.GetOrderById;
 using MediatR;
@@ -38,6 +40,23 @@ public class OrderController : ControllerBase
 
         if (result is null)
             return NotFound();
+
+        return Ok(result);
+    }
+    [HttpPut("{id:guid}/status")]
+    public async Task<IActionResult> UpdateStatus(
+        Guid id,
+        [FromBody] UpdateOrderStatusRequest request)
+    {
+        //if (id != command.Id)
+            //return BadRequest("Route Id and Order Id do not match.");
+            var command = new UpdateOrderStatusCommand
+            {
+                Id = id,
+                Status = request.Status
+            };
+
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }
