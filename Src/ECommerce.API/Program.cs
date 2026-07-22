@@ -4,9 +4,11 @@ using System.Reflection;
 using System.Text;
 using ECommerce.API.Extensions;
 using ECommerce.Application.Features.Auth.Commands.Register;
+using ECommerce.Application.Features.Auth.Validators;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using ECommerce.Infrastructure.Seed;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+// Validator Service Register
+builder.Services.AddValidatorsFromAssemblyContaining<RegisterRequestValidator>();
 
 
 var jwtSettings = builder.Configuration
