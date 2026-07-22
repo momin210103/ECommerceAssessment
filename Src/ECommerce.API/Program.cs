@@ -2,6 +2,7 @@ using ECommerce.Application.Common.Settings;
 using ECommerce.Infrastructure;
 using System.Reflection;
 using System.Text;
+using ECommerce.API.Extensions;
 using ECommerce.Application.Features.Auth.Commands.Register;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -64,6 +65,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionMiddleware();
 
 app.UseAuthentication();
 app.UseAuthorization();
