@@ -1,4 +1,5 @@
 using ECommerce.Application.Features.Categories.Commands.CreateCategory;
+using ECommerce.Application.Features.Categories.Queries.GetAllCategories;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,13 @@ public class CategoryController : ControllerBase
     public async Task<IActionResult> Create(CreateCategoryCommand command)
     {
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _mediator.Send(new GetAllCategoriesQuery());
 
         return Ok(result);
     }
